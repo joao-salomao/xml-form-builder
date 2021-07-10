@@ -46,7 +46,15 @@ const parseQuestion = question => {
     }
 
     if (question.type == 'select') {
-        result.option = question.options.map(option => ({ '#': option }))
+        result.option = question.options.map(option => {
+            return {
+                '#': option.label,
+                '@': {
+                    value: option.value,
+                    selected: option.isSelected,
+                }
+            }
+        })
     }
 
     return result

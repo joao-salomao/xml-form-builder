@@ -5,6 +5,12 @@ export const DEFAULT_QUESTION = {
     isRequired: '0',
 }
 
+export const DEFAULT_OPTION = {
+    label: '',
+    value: '',
+    isSelected: false
+}
+
 export const TYPES = [
     {
         value: 'text',
