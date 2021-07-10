@@ -23,10 +23,7 @@ label {
 }
 
 main {
-  padding: 30px;
-}
-
-.form {
+  padding  : 30px;
   max-width: 600px;
 }
 
@@ -35,7 +32,6 @@ main {
 }
 
 .section {
-  padding      : 10px;
   margin-bottom: 10px;
 }
 
@@ -59,8 +55,7 @@ main {
   cursor         : pointer;
 }
 
-.submit-button {
-  float       : right;
-  font-size   : 16px;
-  margin-right: 10px;
+.xml-viewer {
+  overflow: auto;
+  border  : 1px solid black;
 }
