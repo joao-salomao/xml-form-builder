@@ -50,10 +50,7 @@ function Questions({ questions, setQuestions }) {
     }
 
     return <div>
-        <div style={{ display: 'flex' }}>
-            <h2 style={{ marginRight: '10px' }}>Questions</h2>
-            <button type="button" onClick={onClickAddQuestion}> Add question</button>
-        </div>
+        <h2 style={{ marginRight: '10px' }}>Questions</h2>
         <div>
             {
                 questions.map((question, index) => {
@@ -78,6 +75,7 @@ function Questions({ questions, setQuestions }) {
                 })
             }
         </div>
+        <button style={{ maxHeight: '30px', fontSize: '15px' }} type="button" onClick={onClickAddQuestion}>Add question</button>
     </div>
 }
 
@@ -107,18 +105,18 @@ function Type({ onChange }) {
 }
 
 function Options({ options, onAdd, onRemove, onChangeText }) {
-    return <div>
-        <button type="button" onClick={onAdd}> Add Option</button>
+    return <div style={{ marginTop: '10px' }}>
         <div>
             {
                 options.map((option, optionIndex) => {
                     return <div key={optionIndex}>
                         <input value={option} onChange={e => onChangeText(optionIndex, e.target.value)} />
-                        <button type="button" onClick={onRemove} >Remove Option</button>
+                        <button type="button" onClick={() => onRemove(optionIndex)} >X</button>
                     </div>
                 })
             }
         </div>
+        <button type="button" onClick={onAdd}> Add Option</button>
     </div>
 }
 

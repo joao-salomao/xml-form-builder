@@ -53,7 +53,7 @@ function App() {
       <form onSubmit={e => onSubmit(e)}>
         <MetaData title={title} description={description} setTitle={setTitle} setDescription={setDescription} />
         <Questions questions={questions} setQuestions={setQuestions} />
-        <input type="submit" />
+        <input style={{marginTop: '20px'}} type="submit" value="Submit" />
       </form>
     </div>
   );
