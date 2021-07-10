@@ -25,6 +25,7 @@ code {
 
 label {
   display: block;
+  font-weight: 500;
 }
 
 main {
@@ -63,4 +64,9 @@ main {
 .xml-viewer {
   overflow: auto;
   border  : 1px solid black;
+}
+
+.is-selected {
+  background-color: black;
+  color: white;
 }

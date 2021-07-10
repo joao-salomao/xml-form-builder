@@ -91,13 +91,14 @@ function Label({ value, onChange }) {
 
 function Type({ selected, onChange }) {
     const getTypeClasses = type => {
-        return {
-            'is-selected': type == selected
+        if ( type == selected) {
+            return 'is-selected'
         }
+        return ''
     }
 
     return <div className="form-group">
-        <label>Type</label>
+        <label>Input Type</label>
         <div>
             {
                 TYPES.map(type => {
