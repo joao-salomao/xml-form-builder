@@ -39,6 +39,10 @@ function Questions({ questions, setQuestions }) {
         onChangeQuestionProperty(questionIndex, 'type', type)
     }
 
+    const onChangeLabel = (index, value) => {
+        onChangeQuestionProperty(index, 'label', value)
+    }
+
     const onChangeQuestionProperty = (index, prop, value) => {
         const newQuestions = [...questions]
         newQuestions[index][prop] = value
@@ -55,44 +59,62 @@ function Questions({ questions, setQuestions }) {
                 questions.map((question, index) => {
                     return <div key={index} style={{ marginBottom: '10px', display: 'flex' }}>
                         <fieldset>
-                            <div>
-                                <label>Label</label>
-                                <input type="text" required value={question.label} onChange={e => onChangeQuestionProperty(index, 'label', e.target.value)} />
-                            </div>
-                            <div>
-                                <label>Type</label>
-                                <div>
-                                    <button type="button" onClick={() => onChangeType(index, 'text')} >Text</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'number')}>Number</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'select')} >Select</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'url')} >URL</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'checkbox')} >Check Box</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'password')} >Password</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'range')} >Range</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'date')}>Date</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'datetime')}>Datetime</button>
-                                    <button type="button" onClick={() => onChangeType(index, 'color')}>Color</button>
-                                </div>
-                            </div>
+                            <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
+                            <Type onChange={value => onChangeType(index, value)} />
                             {
-                                question.type == 'select' && <div>
-                                    <button type="button" onClick={() => onClickAddOption(question, index)}> Add Option</button>
-                                    <div>
-                                        {
-                                            question.options.map((option, optionIndex) => {
-                                                return <div key={optionIndex}>
-                                                    <input value={option} onChange={e => onChangeOptionText(index, optionIndex, e.target.value)} />
-                                                    <button type="button" onClick={() => onClickRemoveOption(index, optionIndex)} >Remove Option</button>
-                                                </div>
-                                            })
-                                        }
-                                    </div>
-                                </div>
+                                question.type == 'select' && <Options
+                                    options={question.options}
+                                    onAdd={() => onClickAddOption(question, index)}
+                                    onRemove={optionIndex => onClickRemoveOption(index, optionIndex)}
+                                    onChangeText={(optionIndex, text) => onChangeOptionText(index, optionIndex, text)}
+                                />
                             }
+
                         </fieldset>
-                        <div onClick={() => onClickRemoveQuestion(index)} style={{ backgroundColor: 'red', width: '30px', fontSize: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                        <div onClick={() => onClickRemoveQuestion(index)} style={{ width: '30px', fontSize: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
                             <span>X</span>
                         </div>
+                    </div>
+                })
+            }
+        </div>
+    </div>
+}
+
+function Label({ value, onChange }) {
+    return <div>
+        <label>Label</label>
+        <input type="text" required value={value} onChange={e => onChange(e.target.value)} />
+    </div>
+}
+
+function Type({ onChange }) {
+    return <div>
+        <label>Type</label>
+        <div>
+            <button type="button" onClick={() => onChange('text')} >Text</button>
+            <button type="button" onClick={() => onChange('number')}>Number</button>
+            <button type="button" onClick={() => onChange('select')} >Select</button>
+            <button type="button" onClick={() => onChange('url')} >URL</button>
+            <button type="button" onClick={() => onChange('checkbox')} >Check Box</button>
+            <button type="button" onClick={() => onChange('password')} >Password</button>
+            <button type="button" onClick={() => onChange('range')} >Range</button>
+            <button type="button" onClick={() => onChange('date')}>Date</button>
+            <button type="button" onClick={() => onChange('datetime')}>Datetime</button>
+            <button type="button" onClick={() => onChange('color')}>Color</button>
+        </div>
+    </div>
+}
+
+function Options({ options, onAdd, onRemove, onChangeText }) {
+    return <div>
+        <button type="button" onClick={onAdd}> Add Option</button>
+        <div>
+            {
+                options.map((option, optionIndex) => {
+                    return <div key={optionIndex}>
+                        <input value={option} onChange={e => onChangeText(optionIndex, e.target.value)} />
+                        <button type="button" onClick={onRemove} >Remove Option</button>
                     </div>
                 })
             }
