@@ -152,6 +152,14 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
         }
     }
 
+    const onClickRemoveOption = index => {
+        if (options.length == 1) {
+            return
+        }
+
+        onRemove(index)
+    }
+
     return <div className="options">
         <label>Options</label>
         <fieldset>
@@ -173,7 +181,7 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
                                     className={option.isSelected ? 'is-selected' : ''}
                                     onClick={() => onChangeSelected(!option.isSelected, index)}
                                 >{inputType == 'select' ? 'Is default' : 'Is selected'}</button>
-                                <button type="button" onClick={() => onRemove(index)} >X</button>
+                                <button type="button" onClick={() => onClickRemoveOption(index)} >X</button>
                             </div>
                         </div>
                     </div>
