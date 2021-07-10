@@ -12,19 +12,39 @@ function App() {
     event.preventDefault()
 
     const obj = {
-      survey: {
-        metadata: {
-          title: {
-            '#': title
-          },
-          description: {
-            '#': description
-          },
+      metadata: {
+        title: {
+          '#': title
         },
+        description: {
+          '#': description
+        },
+      },
+      issues: {
+        question: questions.map(q => {
+          const parsed = {
+            type: {
+              '#': q.type
+            },
+            label: {
+              '#': q.label
+            }
+          }
+
+          if (q.type == 'select') {
+            parsed.option = q.options.map(option => {
+              return {
+                '#': option
+              }
+            })
+          }
+
+          return parsed
+        })
       }
     }
 
-    console.log(parse("person", obj));
+    console.log(parse("survey", obj));
   }
 
 
