@@ -1,8 +1,4 @@
-const DEFAULT_QUESTION = {
-    type: 'text',
-    label: '',
-    options: []
-}
+import { DEFAULT_QUESTION, TYPES } from '../constants'
 
 function Questions({ questions, setQuestions }) {
     const onClickAddQuestion = () => {
@@ -10,6 +6,10 @@ function Questions({ questions, setQuestions }) {
     }
 
     const onClickRemoveQuestion = index => {
+        if (questions.length == 1) {
+            return
+        }
+
         const newQuestions = questions.filter((_, i) => i !== index)
         setQuestions(newQuestions)
     }
@@ -49,15 +49,22 @@ function Questions({ questions, setQuestions }) {
         setQuestions(newQuestions)
     }
 
-    return <div>
-        <h2 style={{ marginRight: '10px' }}>Questions</h2>
+    return <div className="section">
+        <div className="section-title">Questions</div>
         <div>
             {
                 questions.map((question, index) => {
                     return <div key={index} style={{ marginBottom: '10px', display: 'flex' }}>
                         <fieldset>
-                            <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
-                            <Type onChange={value => onChangeType(index, value)} />
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
+                                <div style={{ marginLeft: '10px' }}>
+                                    <button className="remove-question" onClick={() => onClickRemoveQuestion(index)}>
+                                        X
+                                    </button>
+                                </div>
+                            </div>
+                            <Type selected={question.type} onChange={value => onChangeType(index, value)} />
                             {
                                 question.type == 'select' && <Options
                                     options={question.options}
@@ -66,11 +73,7 @@ function Questions({ questions, setQuestions }) {
                                     onChangeText={(optionIndex, text) => onChangeOptionText(index, optionIndex, text)}
                                 />
                             }
-
                         </fieldset>
-                        <div onClick={() => onClickRemoveQuestion(index)} style={{ width: '30px', fontSize: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                            <span>X</span>
-                        </div>
                     </div>
                 })
             }
@@ -80,37 +83,43 @@ function Questions({ questions, setQuestions }) {
 }
 
 function Label({ value, onChange }) {
-    return <div>
+    return <div className="form-group" style={{ width: '100%' }}>
         <label>Label</label>
-        <input type="text" required value={value} onChange={e => onChange(e.target.value)} />
+        <input style={{ width: '100%' }} type="text" required value={value} onChange={e => onChange(e.target.value)} />
     </div>
 }
 
-function Type({ onChange }) {
-    return <div>
+function Type({ selected, onChange }) {
+    const getTypeClasses = type => {
+        return {
+            'is-selected': type == selected
+        }
+    }
+
+    return <div className="form-group">
         <label>Type</label>
         <div>
-            <button type="button" onClick={() => onChange('text')} >Text</button>
-            <button type="button" onClick={() => onChange('number')}>Number</button>
-            <button type="button" onClick={() => onChange('select')} >Select</button>
-            <button type="button" onClick={() => onChange('url')} >URL</button>
-            <button type="button" onClick={() => onChange('checkbox')} >Check Box</button>
-            <button type="button" onClick={() => onChange('password')} >Password</button>
-            <button type="button" onClick={() => onChange('range')} >Range</button>
-            <button type="button" onClick={() => onChange('date')}>Date</button>
-            <button type="button" onClick={() => onChange('datetime')}>Datetime</button>
-            <button type="button" onClick={() => onChange('color')}>Color</button>
+            {
+                TYPES.map(type => {
+                    return <button
+                        type="button"
+                        key={type.value}
+                        className={getTypeClasses(type.value)}
+                        onClick={() => onChange(type.value)}
+                    >{type.label}</button>
+                })
+            }
         </div>
     </div>
 }
 
 function Options({ options, onAdd, onRemove, onChangeText }) {
-    return <div style={{ marginTop: '10px' }}>
+    return <div className="options">
         <div>
             {
                 options.map((option, optionIndex) => {
-                    return <div key={optionIndex}>
-                        <input value={option} onChange={e => onChangeText(optionIndex, e.target.value)} />
+                    return <div className="form-group" key={optionIndex}>
+                        <input style={{ width: '90%' }} value={option} onChange={e => onChangeText(optionIndex, e.target.value)} />
                         <button type="button" onClick={() => onRemove(optionIndex)} >X</button>
                     </div>
                 })

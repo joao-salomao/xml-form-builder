@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { parse } from 'js2xmlparser'
 import MetaData from './components/MetaData'
 import Questions from './components/Questions'
+import { DEFAULT_QUESTION } from './constants'
 
 function App() {
   const [title, setTitle] = useState("TítuloTítuloTítulo")
   const [description, setDescription] = useState("DescriçãoDescriçãoDescrição")
-  const [questions, setQuestions] = useState([])
+  const [questions, setQuestions] = useState([{ ...DEFAULT_QUESTION }])
 
   const onSubmit = event => {
     event.preventDefault()
@@ -49,13 +50,13 @@ function App() {
 
 
   return (
-    <div style={{ padding: '30px' }}>
-      <form onSubmit={e => onSubmit(e)}>
+    <main>
+      <form className='form' onSubmit={e => onSubmit(e)}>
         <MetaData title={title} description={description} setTitle={setTitle} setDescription={setDescription} />
         <Questions questions={questions} setQuestions={setQuestions} />
-        <input style={{marginTop: '20px'}} type="submit" value="Submit" />
+        <input className="submit-button" type="submit" value="Submit" />
       </form>
-    </div>
+    </main >
   );
 }
 

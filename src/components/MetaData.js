@@ -1,13 +1,15 @@
 function MetaData({ title, description, setTitle, setDescription }) {
-    return <div style={{marginBottom: '20px'}}>
-        <h2>Metadata</h2>
-        <fieldset style={{marginBottom: '10px'}}>
-            <label>Title</label>
-            <input type="text" required value={title} onChange={e => setTitle(e.target.value)} />
-        </fieldset>
+    return <div className="section">
+        <div className="section-title">Metadata</div>
         <fieldset>
-            <label>Description</label>
-            <textarea required value={description} onChange={e => setDescription(e.target.value)} rows="4" cols="50" />
+            <div className="form-group">
+                <label>Title</label>
+                <input className="w-100" type="text" required value={title} onChange={e => setTitle(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label>Description</label>
+                <textarea className="w-100" required value={description} onChange={e => setDescription(e.target.value)} />
+            </div>
         </fieldset>
     </div>
 }
