@@ -37,7 +37,8 @@ const parseIssues = questions => {
 const parseQuestion = question => {
     const result = {
         '@': {
-            type: question.type
+            type: question.type,
+            isRequired: question.isRequired == '1'
         },
         label: {
             '#': question.label
