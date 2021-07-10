@@ -36,8 +36,8 @@ const parseIssues = questions => {
 
 const parseQuestion = question => {
     const result = {
-        type: {
-            '#': question.type
+        '@': {
+            type: question.type
         },
         label: {
             '#': question.label
