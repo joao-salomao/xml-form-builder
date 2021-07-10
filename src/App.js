@@ -5,8 +5,8 @@ import XMLViewer from './components/XMLViewer'
 import { DEFAULT_QUESTION } from './constants'
 
 function App() {
-  const [title, setTitle] = useState("TítuloTítuloTítulo")
-  const [description, setDescription] = useState("DescriçãoDescriçãoDescrição")
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
   const [questions, setQuestions] = useState([{ ...DEFAULT_QUESTION }])
 
   return (
