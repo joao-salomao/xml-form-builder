@@ -65,6 +65,7 @@ function Questions({ questions, setQuestions }) {
                                 </div>
                             </div>
                             <Type selected={question.type} onChange={value => onChangeType(index, value)} />
+                            <Required value={question.isRequired} onChange={value => onChangeQuestionProperty(index, 'isRequired', value)} />
                             {
                                 question.type == 'select' && <Options
                                     options={question.options}
@@ -91,7 +92,7 @@ function Label({ value, onChange }) {
 
 function Type({ selected, onChange }) {
     const getTypeClasses = type => {
-        if ( type == selected) {
+        if (type == selected) {
             return 'is-selected'
         }
         return ''
@@ -111,6 +112,17 @@ function Type({ selected, onChange }) {
                 })
             }
         </div>
+    </div>
+}
+
+
+function Required({ value, onChange }) {
+    return <div className="form-group" >
+        <label style={{ display: 'inline-block', marginRight: '10px' }}>Is Required?</label>
+        <select value={value} onChange={e => onChange(e.target.value)}>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
     </div>
 }
 

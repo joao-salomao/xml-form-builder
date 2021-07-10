@@ -1,7 +1,8 @@
 export const DEFAULT_QUESTION = {
     type: 'text',
     label: '',
-    options: []
+    options: [],
+    isRequired: '0',
 }
 
 export const TYPES = [

@@ -24,7 +24,7 @@ code {
 
 
 label {
-  display: block;
+  display    : block;
   font-weight: 500;
 }
 
@@ -68,5 +68,9 @@ main {
 
 .is-selected {
   background-color: black;
-  color: white;
+  color           : white;
+}
+
+select {
+  min-width: 100px;
 }
