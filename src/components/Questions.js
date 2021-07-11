@@ -2,7 +2,7 @@ import { DEFAULT_QUESTION, DEFAULT_OPTION, TYPES } from '../constants'
 
 function Questions({ questions, setQuestions }) {
     const onClickAddQuestion = () => {
-        setQuestions([...questions, { ...DEFAULT_QUESTION }])
+        setQuestions([...questions, { ...DEFAULT_QUESTION, id: questions.length + 1 }])
     }
 
     const onClickRemoveQuestion = index => {

@@ -47,6 +47,7 @@ const parseIssues = questions => {
 const parseQuestion = question => {
     const result = {
         '@': {
+            id: question.id,
             type: question.type,
             isRequired: question.isRequired === '1'
         },

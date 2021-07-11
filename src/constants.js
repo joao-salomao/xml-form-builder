@@ -1,4 +1,5 @@
 export const DEFAULT_QUESTION = {
+    id: 1,
     type: 'text',
     label: '',
     options: [],
