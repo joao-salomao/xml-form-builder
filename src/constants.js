@@ -2,6 +2,8 @@ export const DEFAULT_QUESTION = {
     type: 'text',
     label: '',
     options: [],
+    min: '',
+    max: '',
     isRequired: '0',
 }
 
@@ -38,7 +40,7 @@ export const TYPES = [
     },
     {
         value: 'range',
-        label: 'Rage'
+        label: 'Range'
     },
     {
         value: 'date',

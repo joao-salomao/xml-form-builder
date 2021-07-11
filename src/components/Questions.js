@@ -6,7 +6,7 @@ function Questions({ questions, setQuestions }) {
     }
 
     const onClickRemoveQuestion = index => {
-        if (questions.length == 1) {
+        if (questions.length === 1) {
             return
         }
 
@@ -32,16 +32,19 @@ function Questions({ questions, setQuestions }) {
         onChangeQuestionProperty(questionIndex, 'options', options)
     }
 
-    const onChangeType = (questionIndex, type) => {
-        if (type !== 'select') {
-            onChangeQuestionProperty(questionIndex, 'options', [])
+    const onChangeType = (index, type) => {
+        if (!['text', 'password', 'number', 'range'].includes(type)) {
+            onChangeQuestionProperty(index, 'min', '')
+            onChangeQuestionProperty(index, 'max', '')
         }
 
         if (inputTypeHasOptions(type)) {
-            onChangeQuestionProperty(questionIndex, 'options', [{ ...DEFAULT_OPTION }])
+            onChangeQuestionProperty(index, 'options', [{ ...DEFAULT_OPTION }])
+        } else {
+            onChangeQuestionProperty(index, 'options', [])
         }
 
-        onChangeQuestionProperty(questionIndex, 'type', type)
+        onChangeQuestionProperty(index, 'type', type)
     }
 
     const inputTypeHasOptions = type => ['select', 'checkbox'].includes(type)
@@ -74,6 +77,14 @@ function Questions({ questions, setQuestions }) {
                             <Type selected={question.type} onChange={value => onChangeType(index, value)} />
                             <Required value={question.isRequired} onChange={value => onChangeQuestionProperty(index, 'isRequired', value)} />
                             {
+                                ['text', 'password', 'number', 'range'].includes(question.type) && <Limits
+                                    min={question.minValue}
+                                    max={question.maxValue}
+                                    onChangeMin={value => onChangeQuestionProperty(index, 'min', value)}
+                                    onChangeMax={value => onChangeQuestionProperty(index, 'max', value)}
+                                />
+                            }
+                            {
                                 inputTypeHasOptions(question.type) && <Options
                                     options={question.options}
                                     inputType={question.type}
@@ -91,16 +102,29 @@ function Questions({ questions, setQuestions }) {
     </div>
 }
 
+function Limits({ type, min, max, onChangeMin, onChangeMax }) {
+    return <div className="form-group" style={{ display: 'flex', width: '100%', justifyContent: 'spaced-between' }}>
+        <div style={{ marginRight: '10px' }}>
+            <label>Min</label>
+            <input type="number" value={min} onChange={e => onChangeMin(e.target.value)} />
+        </div>
+        <div>
+            <label>Max</label>
+            <input type="number" value={max} onChange={e => onChangeMax(e.target.value)} />
+        </div>
+    </div>
+}
+
 function Label({ value, onChange }) {
     return <div className="form-group" style={{ width: '100%' }}>
         <label>Label</label>
-        <input style={{ width: '100%' }} type="text" required value={value} onChange={e => onChange(e.target.value)} />
+        <input style={{ width: '100%' }} type="text" value={value} onChange={e => onChange(e.target.value)} />
     </div>
 }
 
 function Type({ selected, onChange }) {
     const getTypeClasses = type => {
-        if (type == selected) {
+        if (type === selected) {
             return 'is-selected'
         }
         return ''
@@ -137,13 +161,13 @@ function Required({ value, onChange }) {
 function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
 
     const onChangeSelected = (newValue, optionIndex) => {
-        if (inputType == 'select' && !newValue) {
+        if (inputType === 'select' && !newValue) {
             return
         }
 
         onChangeProperty(optionIndex, 'isSelected', newValue)
 
-        if (inputType == 'select') {
+        if (inputType === 'select') {
             options.forEach((_, i) => {
                 if (i !== optionIndex) {
                     onChangeProperty(i, 'isSelected', !newValue)
@@ -153,7 +177,7 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
     }
 
     const onClickRemoveOption = index => {
-        if (options.length == 1) {
+        if (options.length === 1) {
             return
         }
 
@@ -180,7 +204,7 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
                                     style={{ marginRight: '10px' }} type="button"
                                     className={option.isSelected ? 'is-selected' : ''}
                                     onClick={() => onChangeSelected(!option.isSelected, index)}
-                                >{inputType == 'select' ? 'Is default' : 'Is selected'}</button>
+                                >{inputType === 'select' ? 'Is default' : 'Is selected'}</button>
                                 <button type="button" onClick={() => onClickRemoveOption(index)} >X</button>
                             </div>
                         </div>
