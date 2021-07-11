@@ -64,37 +64,35 @@ function Questions({ questions, setQuestions }) {
         <div>
             {
                 questions.map((question, index) => {
-                    return <div key={index} style={{ marginBottom: '10px', display: 'flex' }}>
-                        <fieldset>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
-                                <div style={{ marginLeft: '10px' }}>
-                                    <button className="remove-question" onClick={() => onClickRemoveQuestion(index)}>
-                                        X
-                                    </button>
-                                </div>
+                    return <fieldset key={index} style={{ marginBottom: '10px' }}>
+                        <div style={{ display: 'flex' }}>
+                            <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
+                            <div style={{ display: 'flex', marginLeft: '10px' }}>
+                                <button className="remove-question" onClick={() => onClickRemoveQuestion(index)}>
+                                    X
+                                </button>
                             </div>
-                            <Type selected={question.type} onChange={value => onChangeType(index, value)} />
-                            <Required value={question.isRequired} onChange={value => onChangeQuestionProperty(index, 'isRequired', value)} />
-                            {
-                                ['text', 'password', 'number', 'range'].includes(question.type) && <Limits
-                                    min={question.minValue}
-                                    max={question.maxValue}
-                                    onChangeMin={value => onChangeQuestionProperty(index, 'min', value)}
-                                    onChangeMax={value => onChangeQuestionProperty(index, 'max', value)}
-                                />
-                            }
-                            {
-                                inputTypeHasOptions(question.type) && <Options
-                                    options={question.options}
-                                    inputType={question.type}
-                                    onAdd={() => onClickAddOption(question, index)}
-                                    onRemove={optionIndex => onClickRemoveOption(index, optionIndex)}
-                                    onChangeProperty={(optionIndex, prop, value) => onChangeOptionProperty(index, optionIndex, prop, value)}
-                                />
-                            }
-                        </fieldset>
-                    </div>
+                        </div>
+                        <Type selected={question.type} onChange={value => onChangeType(index, value)} />
+                        <Required value={question.isRequired} onChange={value => onChangeQuestionProperty(index, 'isRequired', value)} />
+                        {
+                            ['text', 'password', 'number', 'range'].includes(question.type) && <Limits
+                                min={question.minValue}
+                                max={question.maxValue}
+                                onChangeMin={value => onChangeQuestionProperty(index, 'min', value)}
+                                onChangeMax={value => onChangeQuestionProperty(index, 'max', value)}
+                            />
+                        }
+                        {
+                            inputTypeHasOptions(question.type) && <Options
+                                options={question.options}
+                                inputType={question.type}
+                                onAdd={() => onClickAddOption(question, index)}
+                                onRemove={optionIndex => onClickRemoveOption(index, optionIndex)}
+                                onChangeProperty={(optionIndex, prop, value) => onChangeOptionProperty(index, optionIndex, prop, value)}
+                            />
+                        }
+                    </fieldset>
                 })
             }
         </div>
@@ -102,9 +100,9 @@ function Questions({ questions, setQuestions }) {
     </div>
 }
 
-function Limits({ type, min, max, onChangeMin, onChangeMax }) {
-    return <div className="form-group" style={{ display: 'flex', width: '100%', justifyContent: 'spaced-between' }}>
-        <div style={{ marginRight: '10px' }}>
+function Limits({ min, max, onChangeMin, onChangeMax }) {
+    return <div className="form-group">
+        <div>
             <label>Min</label>
             <input type="number" value={min} onChange={e => onChangeMin(e.target.value)} />
         </div>
@@ -117,7 +115,7 @@ function Limits({ type, min, max, onChangeMin, onChangeMax }) {
 
 function Label({ value, onChange }) {
     return <div className="form-group" style={{ width: '100%' }}>
-        <label>Label</label>
+        <label style={{ marginBottom: '1px' }}>Label</label>
         <input style={{ width: '100%' }} type="text" value={value} onChange={e => onChange(e.target.value)} />
     </div>
 }
@@ -190,23 +188,21 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
             {
                 options.map((option, index) => {
                     return <div className="form-group" key={index}>
-                        <div style={{ display: 'flex' }}>
-                            <div className="w-100" style={{ marginRight: '10px' }} >
-                                <label>Label</label>
-                                <input value={option.label} onChange={e => onChangeProperty(index, 'label', e.target.value)} />
-                            </div>
-                            <div className="w-100" >
-                                <label>Value</label>
-                                <input value={option.value} onChange={e => onChangeProperty(index, 'value', e.target.value)} />
-                            </div>
-                            <div className="w-100" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                                <button
-                                    style={{ marginRight: '10px' }} type="button"
-                                    className={option.isSelected ? 'is-selected' : ''}
-                                    onClick={() => onChangeSelected(!option.isSelected, index)}
-                                >{inputType === 'select' ? 'Is default' : 'Is selected'}</button>
-                                <button type="button" onClick={() => onClickRemoveOption(index)} >X</button>
-                            </div>
+                        <div className="w-100" >
+                            <label>Label</label>
+                            <input value={option.label} onChange={e => onChangeProperty(index, 'label', e.target.value)} />
+                        </div>
+                        <div className="w-100" >
+                            <label>Value</label>
+                            <input value={option.value} onChange={e => onChangeProperty(index, 'value', e.target.value)} />
+                        </div>
+                        <div className="w-100" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', marginTop: '10px' }}>
+                            <button
+                                style={{ marginRight: '10px' }} type="button"
+                                className={option.isSelected ? 'is-selected' : ''}
+                                onClick={() => onChangeSelected(!option.isSelected, index)}
+                            >{inputType === 'select' ? 'Is default' : 'Is selected by default'}</button>
+                            <button type="button" onClick={() => onClickRemoveOption(index)} >X</button>
                         </div>
                     </div>
                 })
