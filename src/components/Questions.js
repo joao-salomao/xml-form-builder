@@ -79,7 +79,7 @@ function Questions({ questions, setQuestions }) {
                         <Type selected={question.type} onChange={value => onChangeType(index, value)} />
                         {question.type !== 'hidden' && <Required value={question.isRequired} onChange={value => onChangeQuestionProperty(index, 'isRequired', value)} />}
                         {
-                            ['text', 'password', 'number', 'range'].includes(question.type) && <Limits
+                            ['text', 'password', 'number', 'range', 'textarea'].includes(question.type) && <Limits
                                 min={question.minValue}
                                 max={question.maxValue}
                                 onChangeMin={value => onChangeQuestionProperty(index, 'min', value)}
