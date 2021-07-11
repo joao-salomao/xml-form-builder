@@ -51,12 +51,9 @@ const parseQuestion = question => {
             type: question.type,
             isRequired: question.isRequired === '1'
         },
-        label: {
-            '#': question.label
-        }
     }
 
-    if (['select', 'checkbox'].includes(question.type)) {
+    if (['select', 'checkbox', 'radio'].includes(question.type)) {
         result.option = question.options.map(option => {
             return {
                 '#': option.label,
@@ -78,6 +75,13 @@ const parseQuestion = question => {
         }
     }
 
+    if (question.type === 'hidden') {
+        result['@'].value = question.value
+    } else {
+        result.label = {
+            '#': question.label
+        }
+    }
 
     return result
 }

@@ -38,6 +38,10 @@ function Questions({ questions, setQuestions }) {
             onChangeQuestionProperty(index, 'max', '')
         }
 
+        if (type !== 'hidden') {
+            onChangeQuestionProperty(index, 'value', '')
+        }
+
         if (inputTypeHasOptions(type)) {
             onChangeQuestionProperty(index, 'options', [{ ...DEFAULT_OPTION }])
         } else {
@@ -47,11 +51,7 @@ function Questions({ questions, setQuestions }) {
         onChangeQuestionProperty(index, 'type', type)
     }
 
-    const inputTypeHasOptions = type => ['select', 'checkbox'].includes(type)
-
-    const onChangeLabel = (index, value) => {
-        onChangeQuestionProperty(index, 'label', value)
-    }
+    const inputTypeHasOptions = type => ['select', 'checkbox', 'radio'].includes(type)
 
     const onChangeQuestionProperty = (index, prop, value) => {
         const newQuestions = [...questions]
@@ -66,7 +66,10 @@ function Questions({ questions, setQuestions }) {
                 questions.map((question, index) => {
                     return <fieldset key={index} style={{ marginBottom: '10px' }}>
                         <div style={{ display: 'flex' }}>
-                            <Label value={question.label} onChange={value => onChangeLabel(index, value)} />
+                            {
+                                question.type === 'hidden' ? <Input label="Value" value={question.value} onChange={value => onChangeQuestionProperty(index, 'value', value)} />
+                                    : <Input label="Label" value={question.label} onChange={value => onChangeQuestionProperty(index, 'label', value)} />
+                            }
                             <div style={{ display: 'flex', marginLeft: '10px' }}>
                                 <button className="remove-question" onClick={() => onClickRemoveQuestion(index)}>
                                     X
@@ -113,9 +116,9 @@ function Limits({ min, max, onChangeMin, onChangeMax }) {
     </div>
 }
 
-function Label({ value, onChange }) {
+function Input({ label, value, onChange }) {
     return <div className="form-group" style={{ width: '100%' }}>
-        <label style={{ marginBottom: '1px' }}>Label</label>
+        <label style={{ marginBottom: '1px' }}>{label}</label>
         <input style={{ width: '100%' }} type="text" value={value} onChange={e => onChange(e.target.value)} />
     </div>
 }
@@ -159,13 +162,15 @@ function Required({ value, onChange }) {
 function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
 
     const onChangeSelected = (newValue, optionIndex) => {
-        if (inputType === 'select' && !newValue) {
+        const isSelectOrRadio = ['select', 'radio'].includes(inputType)
+
+        if (isSelectOrRadio && !newValue) {
             return
         }
 
         onChangeProperty(optionIndex, 'isSelected', newValue)
 
-        if (inputType === 'select') {
+        if (isSelectOrRadio) {
             options.forEach((_, i) => {
                 if (i !== optionIndex) {
                     onChangeProperty(i, 'isSelected', !newValue)
@@ -201,7 +206,7 @@ function Options({ inputType, options, onAdd, onRemove, onChangeProperty }) {
                                 style={{ marginRight: '10px' }} type="button"
                                 className={option.isSelected ? 'is-selected' : ''}
                                 onClick={() => onChangeSelected(!option.isSelected, index)}
-                            >{inputType === 'select' ? 'Is default' : 'Is selected by default'}</button>
+                            >Is selected by default</button>
                             <button type="button" onClick={() => onClickRemoveOption(index)} >X</button>
                         </div>
                     </div>

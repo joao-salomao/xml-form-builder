@@ -2,6 +2,7 @@ export const DEFAULT_QUESTION = {
     id: 1,
     type: 'text',
     label: '',
+    value: '',
     options: [],
     min: '',
     max: '',
@@ -15,6 +16,22 @@ export const DEFAULT_OPTION = {
 }
 
 export const TYPES = [
+    {
+        value: 'hidden',
+        label: 'Hidden'
+    },
+    {
+        value: 'textarea',
+        label: 'Text Area'
+    },
+    {
+        value: 'radio',
+        label: 'Radio'
+    },
+    {
+        value: 'tel',
+        label: 'Tel'
+    },
     {
         value: 'text',
         label: 'Text'
