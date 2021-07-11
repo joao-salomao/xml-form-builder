@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-input { 
+input {
   width: 100%;
 }
 
@@ -78,4 +78,10 @@ main {
 
 select {
   min-width: 100px;
+}
+
+.add-question-button {
+  max-height: 30px;
+  font-size : 15px;
+  float     : right;
 }

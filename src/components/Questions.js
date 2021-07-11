@@ -96,7 +96,7 @@ function Questions({ questions, setQuestions }) {
                 })
             }
         </div>
-        <button style={{ maxHeight: '30px', fontSize: '15px' }} type="button" onClick={onClickAddQuestion}>Add question</button>
+        <button className="add-question-button" type="button" onClick={onClickAddQuestion}>Add question</button>
     </div>
 }
 

@@ -1,12 +1,22 @@
 import { useMemo } from 'react'
 import { parse } from 'js2xmlparser'
 import XMLViewerWidget from 'react-xml-viewer'
+import toast, { Toaster } from 'react-hot-toast';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+const notifyCopyToClipboard = () => toast.success('XML copied to clipboard');
 
 export default function XMLViewer({ title, description, questions }) {
     const xml = useMemo(() => parseFormToXML(title, description, questions), [title, description, questions])
 
-    return <div className="xml-viewer">
-        <XMLViewerWidget xml={xml} />
+    return <div>
+        <Toaster />
+        <CopyToClipboard style={{ marginBottom: '5px' }} text={xml}>
+            <button onClick={notifyCopyToClipboard}>Copy to clipboard</button>
+        </CopyToClipboard>
+        <div className="xml-viewer">
+            <XMLViewerWidget xml={xml} />
+        </div>
     </div>
 }
 
